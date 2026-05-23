@@ -5,125 +5,335 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Polla Mundialista 2026</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
+
 <style>
 *{ margin:0; padding:0; box-sizing:border-box; }
+
 body{
   font-family:Arial, sans-serif;
   background:radial-gradient(circle at top,#1638a5,#04113a);
-  color:white; padding:30px;
+  color:white;
+  padding:30px;
 }
-.header{ text-align:center; margin-bottom:35px; }
-.header h1{ font-size:48px; font-weight:900; margin-bottom:14px; }
+
+.header{
+  text-align:center;
+  margin-bottom:35px;
+}
+
+.header h1{
+  font-size:48px;
+  font-weight:900;
+  margin-bottom:14px;
+}
+
 .description{
-  max-width:760px; margin:auto;
-  color:rgba(255,255,255,0.85); line-height:1.7; font-size:16px;
+  max-width:760px;
+  margin:auto;
+  color:rgba(255,255,255,0.85);
+  line-height:1.7;
+  font-size:16px;
 }
-.player-section{ max-width:500px; margin:0 auto 35px; }
+
+.player-section{
+  max-width:500px;
+  margin:0 auto 35px;
+}
+
 .glass-input{
-  width:100%; padding:16px; border-radius:14px;
+  width:100%;
+  padding:16px;
+  border-radius:14px;
   border:1px solid rgba(255,255,255,0.2);
   background:rgba(255,255,255,0.08);
-  color:white; backdrop-filter:blur(10px); outline:none; font-size:15px;
+  color:white;
+  backdrop-filter:blur(10px);
+  outline:none;
+  font-size:15px;
 }
-.glass-input::placeholder{ color:rgba(255,255,255,0.6); }
-h2{ margin-bottom:18px; margin-top:40px; font-size:28px; }
-.matches{ margin-bottom:30px; }
+
+.glass-input::placeholder{
+  color:rgba(255,255,255,0.6);
+}
+
+h2{
+  margin-bottom:12px;
+  margin-top:40px;
+  font-size:28px;
+}
+
+.section-info{
+  margin-bottom:18px;
+  color:rgba(255,255,255,0.82);
+  line-height:1.6;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.12);
+  padding:14px 18px;
+  border-radius:14px;
+  font-size:15px;
+}
+
+.matches{
+  margin-bottom:30px;
+}
+
 .match-card{
-  background:rgba(255,255,255,0.08); padding:18px 22px;
-  border-radius:16px; margin-bottom:14px; backdrop-filter:blur(8px);
+  background:rgba(255,255,255,0.08);
+  padding:18px 22px;
+  border-radius:16px;
+  margin-bottom:14px;
+  backdrop-filter:blur(8px);
 }
+
 .match{
-  display:flex; align-items:center;
-  justify-content:center; gap:28px; flex-wrap:wrap;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:28px;
+  flex-wrap:wrap;
 }
+
 .team-name{
-  width:180px; display:flex; align-items:center;
-  gap:12px; font-weight:700; font-size:17px;
+  width:180px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:700;
+  font-size:17px;
 }
-.team-right{ justify-content:flex-start; padding-left:8px; }
-.score{ display:flex; align-items:center; gap:10px; }
+
+.team-right{
+  justify-content:flex-start;
+  padding-left:8px;
+}
+
+.score{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
 .score input{
-  width:58px; height:42px; border:none; border-radius:10px;
-  text-align:center; font-size:18px; font-weight:bold;
-  background:white; color:#0b1e57;
+  width:58px;
+  height:42px;
+  border:none;
+  border-radius:10px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  background:#dbe7ff;
+  color:#0b1e57;
 }
-.fi{ width:24px; height:18px; border-radius:2px; }
+
+.score input::placeholder{
+  color:#5d74b7;
+}
+
+.fi{
+  width:24px;
+  height:18px;
+  border-radius:2px;
+}
+
 .groups-container{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:18px;
 }
-.group-card{
-  background:rgba(255,255,255,0.07); padding:18px;
-  border-radius:18px; backdrop-filter:blur(10px);
-}
-.group-title{
-  text-align:center; font-weight:900;
-  margin-bottom:15px; font-size:20px;
-}
-.team{
-  display:flex; align-items:center; gap:10px;
-  background:#123BA5; padding:12px; border-radius:10px;
-  margin-bottom:10px; cursor:pointer; transition:0.2s; font-weight:600;
-}
-.team:hover{ transform:scale(1.02); background:#1a4fd3; }
-.team.selected{ border:2px solid #00ff99; background:#0e4fd6; }
-.podium{ display:grid; gap:18px; max-width:500px; }
-.podium-item{ display:flex; flex-direction:column; gap:8px; }
-.podium-item label{ font-weight:bold; font-size:17px; }
 
-/* Custom flag select */
-.flag-select-wrapper{ position:relative; }
+.group-card{
+  background:rgba(255,255,255,0.07);
+  padding:18px;
+  border-radius:18px;
+  backdrop-filter:blur(10px);
+}
+
+.group-title{
+  text-align:center;
+  font-weight:900;
+  margin-bottom:15px;
+  font-size:20px;
+}
+
+.team{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#123BA5;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:10px;
+  cursor:pointer;
+  transition:0.2s;
+  font-weight:600;
+}
+
+.team:hover{
+  transform:scale(1.02);
+  background:#1a4fd3;
+}
+
+.team.selected{
+  border:2px solid #00ff99;
+  background:#0e4fd6;
+}
+
+.group-warning{
+  margin-top:10px;
+  font-size:13px;
+  color:#ffd166;
+  display:none;
+}
+
+.group-warning.show{
+  display:block;
+}
+
+.podium{
+  display:grid;
+  gap:18px;
+  max-width:500px;
+}
+
+.podium-item{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.podium-item label{
+  font-weight:bold;
+  font-size:17px;
+}
+
+.flag-select-wrapper{
+  position:relative;
+}
+
 .flag-select-display{
-  display:flex; align-items:center; gap:10px;
-  padding:14px 16px; border-radius:12px;
-  background:#0d2b78; border:1px solid rgba(255,255,255,0.15);
-  cursor:pointer; user-select:none; font-size:15px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:14px 16px;
+  border-radius:12px;
+  background:#0d2b78;
+  border:1px solid rgba(255,255,255,0.15);
+  cursor:pointer;
+  user-select:none;
+  font-size:15px;
   justify-content:space-between;
 }
-.flag-select-display .selected-label{
-  display:flex; align-items:center; gap:10px;
-}
-.flag-select-dropdown{
-  display:none; position:absolute; top:100%; left:0; right:0;
-  background:#0d2b78; border:1px solid rgba(255,255,255,0.2);
-  border-radius:12px; margin-top:4px; z-index:999;
-  max-height:260px; overflow-y:auto;
-}
-.flag-select-dropdown.open{ display:block; }
-.flag-option{
-  display:flex; align-items:center; gap:10px;
-  padding:10px 16px; cursor:pointer; font-size:14px;
-}
-.flag-option:hover{ background:rgba(255,255,255,0.1); }
-.flag-option.active{ background:rgba(0,255,153,0.15); }
 
-/* Boton guardar */
+.flag-select-display .selected-label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.flag-select-dropdown{
+  display:none;
+  position:absolute;
+  top:100%;
+  left:0;
+  right:0;
+  background:#0d2b78;
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:12px;
+  margin-top:4px;
+  z-index:999;
+  max-height:260px;
+  overflow-y:auto;
+}
+
+.flag-select-dropdown.open{
+  display:block;
+}
+
+.flag-option{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 16px;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.flag-option:hover{
+  background:rgba(255,255,255,0.1);
+}
+
+.flag-option.active{
+  background:rgba(0,255,153,0.15);
+}
+
 .btn-save{
-  display:flex; align-items:center; gap:10px;
-  padding:16px 28px; border-radius:14px; border:none;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:16px 28px;
+  border-radius:14px;
+  border:none;
   background:linear-gradient(135deg,#0f9d58,#0b7a44);
-  color:white; font-size:16px; font-weight:700;
-  cursor:pointer; transition:0.2s; margin-top:40px;
+  color:white;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  transition:0.2s;
+  margin-top:40px;
 }
-.btn-save:hover{ transform:scale(1.03); background:linear-gradient(135deg,#12b864,#0e9451); }
-.btn-save:disabled{ opacity:0.5; cursor:not-allowed; transform:none; }
+
+.btn-save:hover{
+  transform:scale(1.03);
+  background:linear-gradient(135deg,#12b864,#0e9451);
+}
+
+.btn-save:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
+  transform:none;
+}
+
 .save-status{
-  font-size:14px; padding:12px 16px; border-radius:10px;
-  margin-top:14px; display:none;
+  font-size:14px;
+  padding:12px 16px;
+  border-radius:10px;
+  margin-top:14px;
+  display:none;
 }
-.save-status.ok{ display:block; background:rgba(0,200,100,0.2); border:1px solid rgba(0,200,100,0.4); }
-.save-status.err{ display:block; background:rgba(255,80,80,0.2); border:1px solid rgba(255,80,80,0.4); }
+
+.save-status.ok{
+  display:block;
+  background:rgba(0,200,100,0.2);
+  border:1px solid rgba(0,200,100,0.4);
+}
+
+.save-status.err{
+  display:block;
+  background:rgba(255,80,80,0.2);
+  border:1px solid rgba(255,80,80,0.4);
+}
 
 @media(max-width:768px){
-  body{ padding:18px; }
-  .header h1{ font-size:36px; }
-  .match{ gap:18px; }
-  .team-name{ width:140px; font-size:15px; }
-  .score input{ width:48px; }
+  body{
+    padding:18px;
+  }
+  .header h1{
+    font-size:36px;
+  }
+  .match{
+    gap:18px;
+  }
+  .team-name{
+    width:140px;
+    font-size:15px;
+  }
+  .score input{
+    width:48px;
+  }
 }
 </style>
 </head>
+
 <body>
 
 <div class="header">
@@ -139,9 +349,15 @@ h2{ margin-bottom:18px; margin-top:40px; font-size:28px; }
   <input id="playerName" class="glass-input" type="text" placeholder="👤 Nombre participante">
 </div>
 
-<h2>Partidos de Ecuador</h2>
-<div class="matches">
+<!-- ========================= -->
+<!-- PARTIDOS ECUADOR -->
+<!-- ========================= -->
+<h2>🇪🇨 Partidos de Ecuador</h2>
+<div class="section-info">
+  Escribe el marcador que crees que tendrá Ecuador en cada partido de la fase de grupos.
+</div>
 
+<div class="matches">
   <div class="match-card">
     <div class="match">
       <div class="team-name"><span class="fi fi-ec"></span>Ecuador</div>
@@ -150,7 +366,9 @@ h2{ margin-bottom:18px; margin-top:40px; font-size:28px; }
         <span>-</span>
         <input id="ec1a" type="number" min="0" placeholder="0">
       </div>
-      <div class="team-name team-right"><span class="fi fi-ci"></span>Costa de Marfil</div>
+      <div class="team-name team-right">
+        <span class="fi fi-ci"></span>Costa de Marfil
+      </div>
     </div>
   </div>
 
@@ -162,7 +380,9 @@ h2{ margin-bottom:18px; margin-top:40px; font-size:28px; }
         <span>-</span>
         <input id="ec2a" type="number" min="0" placeholder="0">
       </div>
-      <div class="team-name team-right"><span class="fi fi-cw"></span>Curazao</div>
+      <div class="team-name team-right">
+        <span class="fi fi-cw"></span>Curazao
+      </div>
     </div>
   </div>
 
@@ -174,116 +394,154 @@ h2{ margin-bottom:18px; margin-top:40px; font-size:28px; }
         <span>-</span>
         <input id="ec3a" type="number" min="0" placeholder="0">
       </div>
-      <div class="team-name team-right"><span class="fi fi-de"></span>Alemania</div>
+      <div class="team-name team-right">
+        <span class="fi fi-de"></span>Alemania
+      </div>
     </div>
   </div>
-
 </div>
 
+<!-- ========================= -->
+<!-- FASE DE GRUPOS -->
+<!-- ========================= -->
 <h2>🌍 Fase de Grupos</h2>
+<div class="section-info">
+  Selecciona los <strong>2 equipos</strong> que clasificarán a la siguiente ronda en cada grupo.
+</div>
+
 <div class="groups-container">
 
+  <!-- Grupo A -->
   <div class="group-card">
     <div class="group-title">Grupo A</div>
     <div class="team" data-team="México"><span class="fi fi-mx"></span>México</div>
     <div class="team" data-team="Sudáfrica"><span class="fi fi-za"></span>Sudáfrica</div>
     <div class="team" data-team="Corea del Sur"><span class="fi fi-kr"></span>Corea del Sur</div>
     <div class="team" data-team="Rep. Checa"><span class="fi fi-cz"></span>Rep. Checa</div>
+    <div class="group-warning"></div>
   </div>
 
+  <!-- Grupo B -->
   <div class="group-card">
     <div class="group-title">Grupo B</div>
     <div class="team" data-team="Canadá"><span class="fi fi-ca"></span>Canadá</div>
     <div class="team" data-team="Bosnia-Herzegovina"><span class="fi fi-ba"></span>Bosnia-Herz.</div>
     <div class="team" data-team="Catar"><span class="fi fi-qa"></span>Catar</div>
     <div class="team" data-team="Suiza"><span class="fi fi-ch"></span>Suiza</div>
+    <div class="group-warning"></div>
   </div>
 
+  <!-- Grupo C -->
   <div class="group-card">
     <div class="group-title">Grupo C</div>
     <div class="team" data-team="Brasil"><span class="fi fi-br"></span>Brasil</div>
     <div class="team" data-team="Marruecos"><span class="fi fi-ma"></span>Marruecos</div>
     <div class="team" data-team="Haití"><span class="fi fi-ht"></span>Haití</div>
     <div class="team" data-team="Escocia"><span class="fi fi-gb-sct"></span>Escocia</div>
+    <div class="group-warning"></div>
   </div>
 
+  <!-- Grupo D -->
   <div class="group-card">
     <div class="group-title">Grupo D</div>
     <div class="team" data-team="Estados Unidos"><span class="fi fi-us"></span>Estados Unidos</div>
     <div class="team" data-team="Paraguay"><span class="fi fi-py"></span>Paraguay</div>
     <div class="team" data-team="Australia"><span class="fi fi-au"></span>Australia</div>
     <div class="team" data-team="Turquía"><span class="fi fi-tr"></span>Turquía</div>
+    <div class="group-warning"></div>
   </div>
 
+  <!-- Grupo E -->
   <div class="group-card">
     <div class="group-title">Grupo E</div>
     <div class="team" data-team="Alemania"><span class="fi fi-de"></span>Alemania</div>
     <div class="team" data-team="Curazao"><span class="fi fi-cw"></span>Curazao</div>
     <div class="team" data-team="Costa de Marfil"><span class="fi fi-ci"></span>Costa de Marfil</div>
     <div class="team" data-team="Ecuador"><span class="fi fi-ec"></span>Ecuador</div>
+    <div class="group-warning"></div>
   </div>
 
+  <!-- Grupo F -->
   <div class="group-card">
     <div class="group-title">Grupo F</div>
     <div class="team" data-team="Países Bajos"><span class="fi fi-nl"></span>Países Bajos</div>
     <div class="team" data-team="Japón"><span class="fi fi-jp"></span>Japón</div>
     <div class="team" data-team="Suecia"><span class="fi fi-se"></span>Suecia</div>
     <div class="team" data-team="Túnez"><span class="fi fi-tn"></span>Túnez</div>
+    <div class="group-warning"></div>
   </div>
 
+  <!-- Grupo G -->
   <div class="group-card">
     <div class="group-title">Grupo G</div>
     <div class="team" data-team="Bélgica"><span class="fi fi-be"></span>Bélgica</div>
     <div class="team" data-team="Egipto"><span class="fi fi-eg"></span>Egipto</div>
     <div class="team" data-team="Irán"><span class="fi fi-ir"></span>Irán</div>
     <div class="team" data-team="Nueva Zelanda"><span class="fi fi-nz"></span>Nueva Zelanda</div>
+    <div class="group-warning"></div>
   </div>
 
+  <!-- Grupo H -->
   <div class="group-card">
     <div class="group-title">Grupo H</div>
     <div class="team" data-team="España"><span class="fi fi-es"></span>España</div>
     <div class="team" data-team="Cabo Verde"><span class="fi fi-cv"></span>Cabo Verde</div>
     <div class="team" data-team="Arabia Saudita"><span class="fi fi-sa"></span>Arabia Saudita</div>
     <div class="team" data-team="Uruguay"><span class="fi fi-uy"></span>Uruguay</div>
+    <div class="group-warning"></div>
   </div>
 
+  <!-- Grupo I -->
   <div class="group-card">
     <div class="group-title">Grupo I</div>
     <div class="team" data-team="Francia"><span class="fi fi-fr"></span>Francia</div>
     <div class="team" data-team="Senegal"><span class="fi fi-sn"></span>Senegal</div>
     <div class="team" data-team="Irak"><span class="fi fi-iq"></span>Irak</div>
     <div class="team" data-team="Noruega"><span class="fi fi-no"></span>Noruega</div>
+    <div class="group-warning"></div>
   </div>
 
+  <!-- Grupo J -->
   <div class="group-card">
     <div class="group-title">Grupo J</div>
     <div class="team" data-team="Argentina"><span class="fi fi-ar"></span>Argentina</div>
     <div class="team" data-team="Argelia"><span class="fi fi-dz"></span>Argelia</div>
     <div class="team" data-team="Austria"><span class="fi fi-at"></span>Austria</div>
     <div class="team" data-team="Jordania"><span class="fi fi-jo"></span>Jordania</div>
+    <div class="group-warning"></div>
   </div>
 
+  <!-- Grupo K -->
   <div class="group-card">
     <div class="group-title">Grupo K</div>
     <div class="team" data-team="Portugal"><span class="fi fi-pt"></span>Portugal</div>
     <div class="team" data-team="RD Congo"><span class="fi fi-cd"></span>RD Congo</div>
     <div class="team" data-team="Uzbekistán"><span class="fi fi-uz"></span>Uzbekistán</div>
     <div class="team" data-team="Colombia"><span class="fi fi-co"></span>Colombia</div>
+    <div class="group-warning"></div>
   </div>
 
+  <!-- Grupo L -->
   <div class="group-card">
     <div class="group-title">Grupo L</div>
     <div class="team" data-team="Inglaterra"><span class="fi fi-gb-eng"></span>Inglaterra</div>
     <div class="team" data-team="Croacia"><span class="fi fi-hr"></span>Croacia</div>
     <div class="team" data-team="Ghana"><span class="fi fi-gh"></span>Ghana</div>
     <div class="team" data-team="Panamá"><span class="fi fi-pa"></span>Panamá</div>
+    <div class="group-warning"></div>
   </div>
 
 </div>
 
+<!-- ========================= -->
+<!-- PODIO -->
+<!-- ========================= -->
 <h2>🏆 Podio Final</h2>
-<div class="podium">
+<div class="section-info">
+  Selecciona las selecciones que crees que serán campeón, subcampeón y tercer lugar del Mundial.
+</div>
 
+<div class="podium">
   <div class="podium-item">
     <label>🥇 Campeón</label>
     <div class="flag-select-wrapper" id="wrap-campeon">
@@ -302,7 +560,7 @@ h2{ margin-bottom:18px; margin-top:40px; font-size:28px; }
     <div class="flag-select-wrapper" id="wrap-subcampeon">
       <div class="flag-select-display" onclick="toggleDropdown('subcampeon')">
         <span class="selected-label" id="label-subcampeon">
-          <span class="fi fi-ar"></span>Argentina
+          <span class="fi fi-br"></span>Brasil
         </span>
         <span>▾</span>
       </div>
@@ -315,17 +573,16 @@ h2{ margin-bottom:18px; margin-top:40px; font-size:28px; }
     <div class="flag-select-wrapper" id="wrap-tercer">
       <div class="flag-select-display" onclick="toggleDropdown('tercer')">
         <span class="selected-label" id="label-tercer">
-          <span class="fi fi-ar"></span>Argentina
+          <span class="fi fi-fr"></span>Francia
         </span>
         <span>▾</span>
       </div>
       <div class="flag-select-dropdown" id="dd-tercer"></div>
     </div>
   </div>
-
 </div>
 
-<!-- BOTON GUARDAR -->
+<!-- BOTÓN -->
 <button class="btn-save" id="btnGuardar" onclick="guardarPronostico()">
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
@@ -335,78 +592,90 @@ h2{ margin-bottom:18px; margin-top:40px; font-size:28px; }
   </svg>
   Guardar resultados
 </button>
+
 <div id="saveStatus" class="save-status"></div>
 
 <div style="height:60px;"></div>
 
 <script>
-// =====================================================================
-// PASO 1 — PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
-// Cuando tengas tu script publicado, reemplaza el texto entre comillas:
-// =====================================================================
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyV9E6f5BcPjaJONgHlEUA5Jyh2_tgzSYBrFTIZFMEq7ZFZtwCHDAujpwKOwZ8UlZ0P/exec";
-// =====================================================================
 
 const TEAMS = [
-  {name:"Alemania",        code:"de"},
-  {name:"Arabia Saudita",  code:"sa"},
-  {name:"Argelia",         code:"dz"},
-  {name:"Argentina",       code:"ar"},
-  {name:"Australia",       code:"au"},
-  {name:"Austria",         code:"at"},
-  {name:"Bélgica",         code:"be"},
-  {name:"Bosnia-Herz.",    code:"ba"},
-  {name:"Brasil",          code:"br"},
-  {name:"Cabo Verde",      code:"cv"},
-  {name:"Canadá",          code:"ca"},
-  {name:"Catar",           code:"qa"},
-  {name:"Colombia",        code:"co"},
-  {name:"Corea del Sur",   code:"kr"},
+  {name:"Alemania", code:"de"},
+  {name:"Arabia Saudita", code:"sa"},
+  {name:"Argelia", code:"dz"},
+  {name:"Argentina", code:"ar"},
+  {name:"Australia", code:"au"},
+  {name:"Austria", code:"at"},
+  {name:"Bélgica", code:"be"},
+  {name:"Bosnia-Herz.", code:"ba"},
+  {name:"Brasil", code:"br"},
+  {name:"Cabo Verde", code:"cv"},
+  {name:"Canadá", code:"ca"},
+  {name:"Catar", code:"qa"},
+  {name:"Colombia", code:"co"},
+  {name:"Corea del Sur", code:"kr"},
   {name:"Costa de Marfil", code:"ci"},
-  {name:"Croacia",         code:"hr"},
-  {name:"Curazao",         code:"cw"},
-  {name:"Ecuador",         code:"ec"},
-  {name:"Egipto",          code:"eg"},
-  {name:"Escocia",         code:"gb-sct"},
-  {name:"España",          code:"es"},
-  {name:"Estados Unidos",  code:"us"},
-  {name:"Francia",         code:"fr"},
-  {name:"Ghana",           code:"gh"},
-  {name:"Haití",           code:"ht"},
-  {name:"Inglaterra",      code:"gb-eng"},
-  {name:"Irak",            code:"iq"},
-  {name:"Irán",            code:"ir"},
-  {name:"Japón",           code:"jp"},
-  {name:"Jordania",        code:"jo"},
-  {name:"Marruecos",       code:"ma"},
-  {name:"México",          code:"mx"},
-  {name:"Noruega",         code:"no"},
-  {name:"Nueva Zelanda",   code:"nz"},
-  {name:"Países Bajos",    code:"nl"},
-  {name:"Panamá",          code:"pa"},
-  {name:"Paraguay",        code:"py"},
-  {name:"Portugal",        code:"pt"},
-  {name:"RD Congo",        code:"cd"},
-  {name:"Rep. Checa",      code:"cz"},
-  {name:"Senegal",         code:"sn"},
-  {name:"Sudáfrica",       code:"za"},
-  {name:"Suecia",          code:"se"},
-  {name:"Suiza",           code:"ch"},
-  {name:"Túnez",           code:"tn"},
-  {name:"Turquía",         code:"tr"},
-  {name:"Uruguay",         code:"uy"},
-  {name:"Uzbekistán",      code:"uz"}
+  {name:"Croacia", code:"hr"},
+  {name:"Curazao", code:"cw"},
+  {name:"Ecuador", code:"ec"},
+  {name:"Egipto", code:"eg"},
+  {name:"Escocia", code:"gb-sct"},
+  {name:"España", code:"es"},
+  {name:"Estados Unidos", code:"us"},
+  {name:"Francia", code:"fr"},
+  {name:"Ghana", code:"gh"},
+  {name:"Haití", code:"ht"},
+  {name:"Inglaterra", code:"gb-eng"},
+  {name:"Irak", code:"iq"},
+  {name:"Irán", code:"ir"},
+  {name:"Japón", code:"jp"},
+  {name:"Jordania", code:"jo"},
+  {name:"Marruecos", code:"ma"},
+  {name:"México", code:"mx"},
+  {name:"Noruega", code:"no"},
+  {name:"Nueva Zelanda", code:"nz"},
+  {name:"Países Bajos", code:"nl"},
+  {name:"Panamá", code:"pa"},
+  {name:"Paraguay", code:"py"},
+  {name:"Portugal", code:"pt"},
+  {name:"RD Congo", code:"cd"},
+  {name:"Rep. Checa", code:"cz"},
+  {name:"Senegal", code:"sn"},
+  {name:"Sudáfrica", code:"za"},
+  {name:"Suecia", code:"se"},
+  {name:"Suiza", code:"ch"},
+  {name:"Túnez", code:"tn"},
+  {name:"Turquía", code:"tr"},
+  {name:"Uruguay", code:"uy"},
+  {name:"Uzbekistán", code:"uz"}
 ];
 
 const SELECTS = ["campeon","subcampeon","tercer"];
-const selectedIdx = {campeon:3, subcampeon:3, tercer:3};
 
-function buildDropdowns() {
+const selectedIdx = {
+  campeon:3,
+  subcampeon:8,
+  tercer:22
+};
+
+/* ========================= */
+/* DROPDOWNS */
+/* ========================= */
+function buildDropdowns(){
   SELECTS.forEach(id => {
     const dd = document.getElementById("dd-"+id);
+    dd.innerHTML = "";
+
     TEAMS.forEach((t,i) => {
+      const usados = Object.entries(selectedIdx)
+        .filter(([k,v]) => k !== id)
+        .map(([k,v]) => v);
+
+      if(usados.includes(i)) return;
+
       const div = document.createElement("div");
-      div.className = "flag-option" + (i===selectedIdx[id]?" active":"");
+      div.className = "flag-option" + (i===selectedIdx[id] ? " active":"");
       div.innerHTML = `<span class="fi fi-${t.code}"></span>${t.name}`;
       div.addEventListener("click", ()=>selectTeam(id,i));
       dd.appendChild(div);
@@ -414,55 +683,108 @@ function buildDropdowns() {
   });
 }
 
-function selectTeam(selectId, index) {
+function selectTeam(selectId, index){
   selectedIdx[selectId] = index;
   const t = TEAMS[index];
-  document.getElementById("label-"+selectId).innerHTML =
-    `<span class="fi fi-${t.code}"></span>${t.name}`;
-  document.getElementById("dd-"+selectId).querySelectorAll(".flag-option")
-    .forEach((el,i) => el.classList.toggle("active", i===index));
+  document.getElementById("label-"+selectId).innerHTML = `<span class="fi fi-${t.code}"></span>${t.name}`;
+  buildDropdowns();
   closeDropdown(selectId);
 }
 
-function toggleDropdown(id) {
-  SELECTS.forEach(s => { if(s!==id) closeDropdown(s); });
+function toggleDropdown(id){
+  SELECTS.forEach(s => {
+    if(s!==id) closeDropdown(s);
+  });
   document.getElementById("dd-"+id).classList.toggle("open");
 }
-function closeDropdown(id) {
+
+function closeDropdown(id){
   document.getElementById("dd-"+id).classList.remove("open");
 }
+
 document.addEventListener("click", e => {
   SELECTS.forEach(id => {
     const wrap = document.getElementById("wrap-"+id);
-    if(!wrap.contains(e.target)) closeDropdown(id);
+    if(!wrap.contains(e.target)){
+      closeDropdown(id);
+    }
   });
 });
+
+/* ========================= */
+/* GRUPOS */
+/* ========================= */
+function updateGroupWarnings(){
+  document.querySelectorAll(".group-card").forEach(group => {
+    const warning = group.querySelector(".group-warning");
+    const selected = group.querySelectorAll(".team.selected").length;
+
+    if(selected === 1){
+      warning.classList.add("show");
+      warning.textContent = "⚠ Debes seleccionar 2 equipos.";
+    } else {
+      warning.classList.remove("show");
+    }
+  });
+}
 
 document.querySelectorAll(".team").forEach(team => {
   team.addEventListener("click", () => {
     const group = team.parentElement;
     const sel = group.querySelectorAll(".selected");
+
     if(team.classList.contains("selected")){
       team.classList.remove("selected");
     } else {
-      if(sel.length < 2) team.classList.add("selected");
-      else alert("Solo puedes seleccionar 2 equipos por grupo");
+      if(sel.length < 2){
+        team.classList.add("selected");
+      } else {
+        alert("Solo puedes seleccionar 2 equipos por grupo");
+      }
     }
+    updateGroupWarnings();
   });
 });
 
-function collectData() {
+/* ========================= */
+/* VALIDACIÓN */
+/* ========================= */
+function validarGrupos(){
+  let incompleto = false;
+  document.querySelectorAll(".group-card").forEach(group => {
+    const selected = group.querySelectorAll(".team.selected").length;
+    if(selected !== 2){
+      incompleto = true;
+    }
+  });
+  return !incompleto;
+}
+
+function collectData(){
   const nombre = document.getElementById("playerName").value.trim();
-  if(!nombre){ alert("Por favor escribe tu nombre."); return null; }
+
+  if(!nombre){
+    alert("Por favor escribe tu nombre.");
+    return null;
+  }
+
+  if(!validarGrupos()){
+    alert("Revisa la fase de grupos. Debes seleccionar exactamente 2 equipos en cada grupo.");
+    return null;
+  }
 
   const grupos = {};
+  // Corregido: Ahora recorre desde la A hasta la L
   ["A","B","C","D","E","F","G","H","I","J","K","L"].forEach(g => {
     let found = null;
     document.querySelectorAll(".group-card").forEach(card => {
-      if(card.querySelector(".group-title").textContent.includes("Grupo "+g)) found = card;
+      if(card.querySelector(".group-title").textContent.includes("Grupo "+g)){
+        found = card;
+      }
     });
+
     const sel = found ? found.querySelectorAll(".selected") : [];
-    grupos["grupo"+g] = Array.from(sel).map(t=>t.dataset.team).join(" / ") || "(sin selección)";
+    grupos["grupo"+g] = Array.from(sel).map(t=>t.dataset.team).join(" / ");
   });
 
   return {
@@ -474,20 +796,24 @@ function collectData() {
     ec3h: document.getElementById("ec3h").value || "-",
     ec3a: document.getElementById("ec3a").value || "-",
     ...grupos,
-    campeon:    TEAMS[selectedIdx.campeon].name,
+    campeon: TEAMS[selectedIdx.campeon].name,
     subcampeon: TEAMS[selectedIdx.subcampeon].name,
-    tercero:    TEAMS[selectedIdx.tercer].name
+    tercer: TEAMS[selectedIdx.tercer].name
   };
 }
 
-async function guardarPronostico() {
+/* ========================= */
+/* GUARDAR */
+/* ========================= */
+async function guardarPronostico(){
   const data = collectData();
   if(!data) return;
 
   const btn = document.getElementById("btnGuardar");
   const status = document.getElementById("saveStatus");
+
   btn.disabled = true;
-  btn.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> Guardando...`;
+  btn.innerHTML = "Guardando...";
   status.className = "save-status";
 
   try {
@@ -497,36 +823,21 @@ async function guardarPronostico() {
       body: JSON.stringify(data),
       mode: "no-cors"
     });
+
     status.className = "save-status ok";
-    status.textContent = "✅ Pronóstico de " + data.nombre + " guardado. ¡Listo!";
-
-    // ── LIMPIAR TODO DESPUÉS DE GUARDAR ──
-    document.getElementById("playerName").value = "";
-    document.getElementById("ec1h").value = "";
-    document.getElementById("ec1a").value = "";
-    document.getElementById("ec2h").value = "";
-    document.getElementById("ec2a").value = "";
-    document.getElementById("ec3h").value = "";
-    document.getElementById("ec3a").value = "";
-    document.querySelectorAll(".team.selected").forEach(t => t.classList.remove("selected"));
-    selectedIdx.campeon = 3;
-    selectedIdx.subcampeon = 3;
-    selectedIdx.tercer = 3;
-    ["campeon","subcampeon","tercer"].forEach(id => {
-      selectTeam(id, 3); // vuelve a Argentina como default
-    });
-    // ── FIN LIMPIEZA ──
-
+    status.textContent = "✅ Pronóstico de " + data.nombre + " guardado correctamente.";
   } catch(err) {
     status.className = "save-status err";
-    status.textContent = "❌ Error al guardar. Verifica la conexión o la URL del script.";
+    status.textContent = "❌ Error al guardar.";
   }
 
   btn.disabled = false;
-  btn.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg> Guardar resultados`;
+  btn.innerHTML = "Guardar resultados";
 }
 
 buildDropdowns();
+updateGroupWarnings();
 </script>
+
 </body>
 </html>
