@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"/>
+
+
 <style>
 :root{
   --bg:#020d1f;--blue1:#0c2461;--blue2:#1e3799;--blue3:#2354d9;
@@ -356,7 +358,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
 </div><!-- /wrap -->
 
 <script>
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyV9E6f5BcPjaJONgHlEUA5Jyh2_tgzSYBrFTIZFMEq7ZFZtwCHDAujpwKOwZ8UlZ0P/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyizU7BfHRawSalw4It5Z3Et3gEBPMzgNzTDLCj-pZPJ5la_0m4YPYBO1n3Lmj4ANsI/exec";
 
 // ══════════════════════════════════════════════
 // DATOS
@@ -537,7 +539,14 @@ async function guardarPronostico(){
   const btn=document.getElementById('btnGuardar'),status=document.getElementById('saveStatus');
   btn.disabled=true;btn.textContent='Guardando...';status.className='save-status';
   try{
-    await fetch(APPS_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(data),mode:'no-cors'});
+    const res = await fetch(APPS_SCRIPT_URL, {
+  method: 'POST',
+  headers: {'Content-Type': 'text/plain'},
+  body: JSON.stringify(data),
+  redirect: 'follow'
+});
+const json = await res.json();
+if (json.status !== 'ok') throw new Error(json.message || 'Error del servidor');
     status.className='save-status ok';status.textContent=`✅ ¡Pronóstico de ${data.nombre} guardado correctamente!`;
   }catch(err){status.className='save-status err';status.textContent='❌ Error al guardar. Revisa tu conexión.';}
   btn.disabled=false;
