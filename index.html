@@ -556,30 +556,36 @@ if (json.status !== 'ok') throw new Error(json.message || 'Error del servidor');
 // ══════════════════════════════════════════════
 // CÁLCULO DE PUNTOS
 // ══════════════════════════════════════════════
+
 function calcPoints(pron, resultados){
-  // Construir mapa de partidos reales
   const realMap={};
   resultados.forEach(r=>{
-    const pid=r['Partido ID']||r['partido_id']||r[0];
-    const gl=parseInt(r['Goles Local']||r[5]);
-    const gv=parseInt(r['Goles Visitante']||r[6]);
+    const pid=(r['Partido ID']||r[0]||'').toString().trim();
+    // Busca las columnas con o sin flechas en el nombre
+    const gl=parseFloat(
+      r['Goles Local']??r['Goles Local ⬅']??r['Goles Local ←']??r[5]
+    );
+    const gv=parseFloat(
+      r['Goles Visitante']??r['Goles Visitante ➡']??r['Goles Visitante →']??r[6]
+    );
     if(pid && !isNaN(gl) && !isNaN(gv)) realMap[pid]={gl,gv};
   });
 
   let ptsMarcadores=0, ptsClasificados=0, ptsPodio=0;
 
-  // 1. Marcadores (72 partidos)
+  // 1. Marcadores
   GROUPS.forEach(g=>{
     g.matches.forEach(m=>{
       const real=realMap[m.id];
       if(!real) return;
-      const key='partido_'+m.id;
-      const pred=(pron[key]||'').split('-');
+      const val=pron['Partido_'+m.id]||pron['partido_'+m.id]||'';
+      const pred=val.split('-');
       if(pred.length!==2) return;
-      const ph=parseInt(pred[0]),pa=parseInt(pred[1]);
+      const ph=parseInt(pred[0]), pa=parseInt(pred[1]);
       if(isNaN(ph)||isNaN(pa)) return;
-      if(ph===real.gl && pa===real.gv){ ptsMarcadores+=3; }
-      else {
+      if(ph===real.gl && pa===real.gv){
+        ptsMarcadores+=3;
+      } else {
         const rRes=real.gl>real.gv?'L':real.gl<real.gv?'V':'E';
         const pRes=ph>pa?'L':ph<pa?'V':'E';
         if(rRes===pRes) ptsMarcadores+=1;
@@ -587,54 +593,57 @@ function calcPoints(pron, resultados){
     });
   });
 
-  // 2. Clasificados — leer desde resultados: buscar fila de primera aparición del grupo
+  // 2. Clasificados — están en la fila del primer partido de cada grupo (ej: A1, B1...)
   const grupoClasMap={};
   resultados.forEach(r=>{
     const pid=(r['Partido ID']||r[0]||'').toString().trim();
     if(!pid||pid.length<2) return;
-    const grp=pid[0];
+    const grp=pid[0].toUpperCase();
+    const num=parseInt(pid.slice(1));
+    if(num!==1) return; // solo la primera fila de cada grupo tiene clasificados
     const c1=(r['Clasificado 1']||r[9]||'').toString().trim();
     const c2=(r['Clasificado 2']||r[10]||'').toString().trim();
-    if((c1||c2)&&!grupoClasMap[grp]) grupoClasMap[grp]={c1,c2};
+    if(c1||c2) grupoClasMap[grp]={c1,c2};
   });
 
   GROUPS.forEach(g=>{
     const real=grupoClasMap[g.id];
     if(!real) return;
-    const pred=(pron['grupo'+g.id]||'').split(' / ').map(s=>s.trim());
+    const val=pron['Ganador_Grupo'+g.id]||pron['grupo'+g.id]||'';
+    const pred=val.split(' / ').map(s=>s.trim());
     const realSet=[real.c1,real.c2].filter(Boolean);
     pred.forEach(p=>{ if(p && realSet.includes(p)) ptsClasificados+=1; });
   });
 
-  // 3. Podio — buscar fila de podio en resultados
+  // 3. Podio
   let realCampeon='', realSub='', realTercer='';
   resultados.forEach(r=>{
-    const pid=(r['Partido ID']||r[0]||'').toString().toLowerCase();
-    if(pid.includes('campe')) realCampeon=(r['Clasificado 1']||r[5]||'').toString().trim();
-    if(pid.includes('subcampe')) realSub=(r['Clasificado 1']||r[5]||'').toString().trim();
-    if(pid.includes('tercer')) realTercer=(r['Clasificado 1']||r[5]||'').toString().trim();
-    // Alternativa: columnas F del bloque podio al final
-    if((r['Goles Local']||r[5]||'').toString().trim() && !pid.match(/[a-l][1-6]/i)){
-      const lbl=(r['Partido ID']||r[0]||'').toString();
-      if(lbl.includes('🥇')||lbl.toLowerCase().includes('campe')) realCampeon=(r['Goles Local']||r[5]||'').toString().trim();
-      if(lbl.includes('🥈')||lbl.toLowerCase().includes('subcampe')) realSub=(r['Goles Local']||r[5]||'').toString().trim();
-      if(lbl.includes('🥉')||lbl.toLowerCase().includes('tercer')) realTercer=(r['Goles Local']||r[5]||'').toString().trim();
-    }
+    const pid=(r['Partido ID']||r[0]||'').toString().toLowerCase().trim();
+    if(pid.includes('campe')&&!pid.includes('sub'))
+      realCampeon=(r['Clasificado 1']||r[9]||'').toString().trim();
+    if(pid.includes('subcampe'))
+      realSub=(r['Clasificado 1']||r[9]||'').toString().trim();
+    if(pid.includes('tercer'))
+      realTercer=(r['Clasificado 1']||r[9]||'').toString().trim();
   });
 
-  const pronPodio=[pron.campeon||'', pron.subcampeon||'', pron.tercer||''];
-  const realPodio=[realCampeon, realSub, realTercer].filter(Boolean);
+  const pronCampeon  =pron['campeon']   ||pron['Campeon']   ||'';
+  const pronSub      =pron['subcampeon']||pron['Subcampeon']||'';
+  const pronTercer   =pron['tercer']    ||pron['Tercer']    ||'';
+  const pronPodio    =[pronCampeon, pronSub, pronTercer];
+  const realPodio    =[realCampeon, realSub, realTercer].filter(Boolean);
 
   if(realPodio.length===3){
     const pronSet=new Set(pronPodio);
     const coincidencias=realPodio.filter(t=>pronSet.has(t)).length;
     if(coincidencias===3) ptsPodio+=5;
     if(pronPodio[0]===realCampeon && realCampeon) ptsPodio+=5;
-    if(pronPodio[1]===realSub && realSub) ptsPodio+=5;
-    if(pronPodio[2]===realTercer && realTercer) ptsPodio+=5;
+    if(pronPodio[1]===realSub     && realSub)     ptsPodio+=5;
+    if(pronPodio[2]===realTercer  && realTercer)  ptsPodio+=5;
   }
 
-  return{ptsMarcadores,ptsClasificados,ptsPodio,total:ptsMarcadores+ptsClasificados+ptsPodio};
+  return{ptsMarcadores,ptsClasificados,ptsPodio,
+         total:ptsMarcadores+ptsClasificados+ptsPodio};
 }
 
 // ══════════════════════════════════════════════
